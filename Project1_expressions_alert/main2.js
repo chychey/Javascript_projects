@@ -8,9 +8,10 @@ var B = "Concatenated" + "String"    //assigning a concatenated string value to 
 document.write(B)
 var Family = "The Italians", Mom = "Josh", Dad = "Kyle"  //assigning multiple variables
 document.write(Dad)
-Document.write(7 + 7);              //assigning an expression
+document.write(7 + 7);              //assigning an expression
 function My_Fist_Function() {       //Defining a function and naming it
                                     
     var str = "This is the button text!";   //Defining a variable and giving it a string value
     document.getElementById("Button_Text") .innerHTML = str; //Putting the value of the variable
-}                                                            //into the HTML elementFromPoint with the "Button_Text" id
+}           //into the HTML elementFromPoint with the "Button_Text" id
+alert("Hey everyone!");
