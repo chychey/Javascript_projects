@@ -38,6 +38,10 @@ K = 9;
 M = "9";
 document.write(K === M);
 
+J = 1;
+F = 3;
+document.write(J + F);
+
 document.write(8 > 2 && 14 > 8);
 
 document.write(8 < 2 && 14 < 8);
@@ -51,4 +55,11 @@ function not_Function() {
 }
 function not_Function2() {
     document.getElementById("Not2").innerHTML = !(5 > 10);
+}
+
+function Ride_Function() {
+    var Height, Can_ride;
+    Height = document.getElementById("Height").value;
+    Can_ride = (Height < 52) ? "You are too short":"You are tall enough";
+    document.getElementById("Ride").innerHTML = Can_ride + "to ride.";
 }
