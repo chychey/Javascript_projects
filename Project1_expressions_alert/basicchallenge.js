@@ -1,6 +1,7 @@
-var B = "6" + "6"
-document.write(B);
-let x = 5; //assigning the value to x
-let y = 6; //assigning the value to y
-let z = x + y;
-document.getElementById("demo") .innerHTML = "The sum of x + y is:" + z;
+var B = "6" + "6" //assigning a function to a variable
+document.write(B); //displaying function assiged to variable
+function My_Fist_Function() { //defining a variable and giving it a string value 
+var str = "This is a button text!";
+document.getElementById("Button_Text") .innerHTML = str // putting the of the variable into the html elementfrompoint with the "Button_Text" id 
+}
+
