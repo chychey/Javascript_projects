@@ -23,21 +23,22 @@ function uppercase_Method() {
 
 function text_search() {
     let tex = "ms. red has a Red house"
-    let position = text.search("red");
+    let position = text_search("red");
     document.getElementById("black").innerHTML = position;
 }
 
 function fixed_Method() {
     let num = 5.10000;
-            let n = num.toFixed();
-            document.getElementById("promo").innerHTML = n;
+    let n = num.toFixed();
+    document.getElementById("promo").innerHTML = n;
 }
 
 function value_Method() {
-    let  = "Hello World!";
-            let result = text.valueOf();
+    let text1 = "Hello ";
+    let text2 = "world!";
+    let result = text1.concat("",text2);
 
-            document.getElementById("can").innerHTML = result;
+    document.getElementById("can").innerHTML = result;
 }
 
 function text_connection() {
