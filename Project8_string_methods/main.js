@@ -22,8 +22,8 @@ function uppercase_Method() {
 }
 
 function text_search() {
-    let tex = "ms. red has a Red house"
-    let position = text_search("red");
+    let text = "ms. red has a Red house"
+    let position = text.search("red");
     document.getElementById("black").innerHTML = position;
 }
 
