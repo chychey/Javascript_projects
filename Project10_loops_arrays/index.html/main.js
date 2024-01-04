@@ -6,26 +6,6 @@ function ok_loop() {
 
     document.getElementById("ok").innerHTML = length;
 }
-function for_loop() {
- var Instruments = ["guitar", "drums", "piano", "Flute", "Violin", "Trumpet",];
- var Content = "";
- var Y;
-    for (Y = 0; Y < Instruments.length; Y++) {
-        content += instruments[Y] + "<br>";
-    }
-    document.getElementById("List_of_Instruments").innerHTML = Content;
- }
-
-function cat_pics() {
-    var Cat_Picture = [];
-    Cat_Picture = [];
-    Cat_Picture[0] = "sleeping";
-    Cat_Picture[1] = "playing";
-    Cat_Picture[2] = "eating";
-    Cat_Picture[3] = "purring";
-    document.getElementById("Cat").innerHTML = "In this picture, the cat is" +
-     Cat_Pictue[1] + ".";
- }
 
 
 function car_function() { //--calling car function in order from color, make, model,
