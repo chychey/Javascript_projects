@@ -17,3 +17,25 @@ function Color_function() {
     }
     document.getElementById("Output").innerHTML = Color_Output;
 }
+
+function Hello_World_Function() {
+    var A = document.getElementsByClassName("Click");
+    A[0].innerHTML = "The text has changed!";
+}
+var c = document.getElementById("Border_canv");
+var ctx = c.getContext("2d");
+ctx.font = "30px Arial";
+ctx.fillText("Hello World",10,50);
+
+const c = document.getElementById("Border_canv");
+const ctx = c.getContext("2d");
+
+//Create a gradient
+const grd = ctx.creatLinearGradient(0,0,17,5);
+grd.addColorStop(0, "black");
+grd.addColorsStop(1, "white");
+
+//Draw a filled Retangle
+ctx.fillStyle = grd;
+ctx.fillrect(20, 20, 150,100);
+

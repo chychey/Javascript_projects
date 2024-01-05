@@ -40,3 +40,14 @@ const fruits = ["banana", "orange", "Apple",];
 let size = fruits.length;
 document.getElementById("foods").innerHTML = fruits.toString();
 }
+function While_loop() {
+  let text = "";
+  let i = 0;
+  while (i < 5) {
+    text += i + "<br>";
+    i++;
+  }
+  document.getElementById("w_loop").innerHTML = text;
+} 
+
+
