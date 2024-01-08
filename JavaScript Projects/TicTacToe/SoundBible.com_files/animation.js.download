@@ -1,0 +1,310 @@
+// call Adlib.screenshotterEnd() on the last animation code.
+// do not delete initAnimation function since this is the first function that will be called after initialization of defaultValues.
+// if ever there is a video for this ad, you can use myVideo as the variable to play the video.
+// sample tween codes:
+// tween.to("#disclaimerWrapper", {opacity:0.99,duration: 1,ease: "power2.out"},"-=1");
+// tween.set("#frame1HeadlineWrapper",{opacity:1})
+let tween;
+function initAnimation() {
+     // place all fluid elements before text resize and css attrib.
+     defaultValues.ctaColor1 = defaultValues.ctaColor1.replace(/<[^>]*>?/gm, '');
+     defaultValues.trigger = defaultValues.trigger.replace(/<[^>]*>?/gm, '');
+     defaultValues.trigger2 = defaultValues.trigger2.replace(/<[^>]*>?/gm, '');
+     ctaColorHandler(defaultValues.ctaColor1);
+
+     splitLines(document.getElementById('headline'), '<span>', '</span>');
+     headlineHighlightHandler(document.getElementById('headline'));
+
+     if(Adlib.isEmpty(defaultValues.ctaText)){
+          document.querySelector("#cta-container").style.display = "none";  
+          document.querySelector("#cta-container2").style.display = "none";  
+     }
+     
+     if(defaultValues.trigger === "Animated") {
+          gsap.set(['#headline > span'], {opacity: 0});
+          gsap.set(['#cta-container', '#cta-container2'], {scale: 0});
+     } else {
+          staticCheck();
+     }
+
+     Adlib.textResize(); // This is optional if your build doesn't use text resize you can delete this
+     Adlib.templateCSS(defaultValues.cssAttrib); // DO NOT DELETE THIS
+     startAnimation();
+}
+function startAnimation() {  
+     document.querySelector("#mainContent").style.opacity = 1;
+     tween = gsap.timeline();
+
+     if(defaultValues.trigger === "Animated") {
+
+          repeatAnimation(1, "");
+
+     } else {
+          animationEnd();
+     }
+}
+function animationEnd() {
+     // call this function on the very end of the last animation.     
+     takeScreenshot();
+     setTimeout(function() {adlibEnd();},1000);
+}
+
+function repeatAnimation(animCounter, ctaTarget) {
+     let ctaCont = `#cta-container${ctaTarget}`;
+     if(defaultValues.logo.indexOf("blank") === -1) {
+          animCounter === 2 && gsap.to(ctaCont, 0.3, {opacity: 1, delay: 0.2});
+          gsap.to(ctaCont, 0.3, {scale: 1, delay: 0.2, ease: Back.easeOut.config(1.2), onComplete: () => {
+               if(!Adlib.isEmpty(defaultValues.frame1Headline)) {
+                    animCounter === 2 && takeScreenshot();
+                    gsap.to('#logo-container', 0.2, {opacity: 0, delay: 1.7, ease: Power2.easeOut, onComplete: () => {
+                         if(!Adlib.isEmpty(defaultValues.frame1Headline)) {
+                              headlineAnim(animCounter, ctaTarget);
+                         } 
+                    }});
+               } else {
+                    if(animCounter === 1){
+                         gsap.to(ctaCont, {duration: 1, onComplete: () => {
+                              defaultValues.logo.indexOf("blank") === -1 && gsap.to('#logo-container', {opacity: 1});
+                              gsap.to(['#headline > span'], {opacity: 0});
+                              gsap.to(ctaCont, {opacity: 0});
+                              repeatAnimation(2, "2");
+                         }})
+                    } else if (animCounter === 2) {
+                         animationEnd();
+                    }
+               }
+          }});
+     } 
+     else if (!Adlib.isEmpty(defaultValues.frame1Headline)) {
+          gsap.to(ctaCont, 0.3, {scale: 1, delay: 0.2, ease: Back.easeOut.config(1.2), onComplete: () => headlineAnim(animCounter, ctaTarget) });
+     } 
+}
+
+
+function headlineAnim(animCounter, ctaTarget) {
+     let ctaCont = `#cta-container${ctaTarget}`;
+     gsap.to(e('#headline').childNodes, {opacity: 1, ease: Power2.easeOut, delay: 0.4, stagger: 0.2, onComplete:() => {
+          gsap.to(ctaCont, 0.3, {scale: 1.1, ease: Power2.easeOut, delay: 0.4});
+          gsap.to(ctaCont, 0.3, {scale: 1, ease: Power2.easeOut, delay: 0.5, onComplete: () => {
+               if(animCounter === 1){
+                    gsap.to(ctaCont, {duration: 1.5, onComplete: () => {
+                         defaultValues.logo.indexOf("blank") === -1 && gsap.to('#logo-container', {opacity: 1});
+                         gsap.to(['#headline > span'], {opacity: 0});
+                         gsap.to(ctaCont, {opacity: 0});
+                         repeatAnimation(2, "2");
+                    }})
+               } else if (animCounter === 2) {
+                    animationEnd();
+               }
+          }});
+     }});
+}
+
+// NO VALUES NEEDED TO BE CHANGED BELOW THIS LINE
+
+function ctaColorHandler(color) {
+     if(!Adlib.isEmpty(color)) {
+          e('#cta-container').style.backgroundColor = color;
+          e('#cta-container2').style.backgroundColor = color;
+     }
+}
+
+// Openingtag & closingtag has to be a string!!
+function splitLines(container, openingtag, closingtag) {
+     
+     // get text without brackets to avoid animation bugs
+     let cleanText = container.textContent;
+     cleanText = cleanText.replace('[', '');
+     cleanText = cleanText.replace(']', '');
+
+     // get index of brackets
+     let initBracketIndex = container.textContent.indexOf('[');
+     let lastBracketIndex = container.textContent.indexOf(']');
+
+     // get indices of <br> if exists
+     let indicesBreak = [];
+     let HTMLRef = container.innerHTML
+     while (HTMLRef.indexOf('<br>') !== -1) {
+          indicesBreak.push(HTMLRef.indexOf('<br>'));
+          HTMLRef = HTMLRef.replace("<br>", "");
+     }
+
+     // Get the spans in the paragraph 
+     var spans = container.children,
+ 
+         top = 0,
+ 
+         // set tmp as a string 
+         tmp = '';
+ 
+     // Put spans on each word, for now we use the <n> tag because, we want to save 5 bytes:)
+
+     container.innerHTML = cleanText.replace(/\S+/g, '<n>$&</n>');   
+ 
+     // Loop through each words (spans) 
+     for (let i = 0; i < spans.length; i++) {
+ 
+         // Get the height of each word
+         var rect = spans[i].getBoundingClientRect().top;
+ 
+         // If top is different as the last height of the word use a closingtag and use an opentag after that
+         if (top < rect) tmp += closingtag + openingtag;
+         top = rect;
+ 
+         // Add the spans + space between each word
+         tmp += spans[i].textContent + ' ';
+     }
+ 
+     // Add the lines back to the paragraph 
+     container.innerHTML = tmp += closingtag;
+
+     // loop through all spans and add brackets to their original index
+     if(container.id === 'headline') {
+          let headlineChildren = document.getElementById('headline').childNodes;
+          // iterate through all span child in headline
+          let charCounter = 0;
+          headlineChildren.forEach((child) => {
+               let childText = child.textContent;
+               for(let i = 0; i < childText.length; i++) {
+                    if(charCounter === initBracketIndex) {
+                         childText = childText.slice(0, i) + "[" + childText.slice(i);
+                    }
+                    
+                    if(charCounter === lastBracketIndex) {
+                         childText = childText.slice(0, i) + "]" + childText.slice(i);
+                    }
+                    charCounter++;
+               }
+
+               // apply updated text with brackets
+               child.innerHTML = childText;
+
+          });
+     }
+
+     // handling  breaklines
+     if(indicesBreak.length > 0) {
+          let textChildren = container.childNodes;
+          let editedChildNodeIndices = [];
+          // iterate through all span child in container
+          let charCounter = 0;
+          textChildren.forEach((child, i) => {
+               // if(indicesBreak.length === 0) {return};
+               let childText = child.textContent;
+               charCounter += childText.length;
+               
+               if(charCounter >= indicesBreak[0]) {
+                    let tempText = "";
+                    while (charCounter >= indicesBreak[0]) {
+                         let targetIndex = indicesBreak[0] - charCounter;
+                         tempText += "<span>" + childText.slice(0, targetIndex) + "</span>";
+                         childText = childText.slice(targetIndex)
+                         indicesBreak = indicesBreak.slice(1);
+                    };
+                    childText.length > 0 && childText !== " " && (tempText += "<span>" +  childText.slice(0, childText.length - 1) + "</span>");
+
+                    childText = tempText;
+
+                    child.innerHTML = childText;
+                    child.childNodes.forEach((childNode)=> {
+                         childNode.style.display = 'block';
+                    })
+                    editedChildNodeIndices.push(i);
+               }
+
+          });
+
+          let brSpanCounter = 0;
+          let brSpanChildSizePerEl = [];
+          for(let i = editedChildNodeIndices.length - 1; i >= 0; i--) {
+               let targetNode = container.childNodes[editedChildNodeIndices[i]];
+               let spanChildCounter = 0;
+               targetNode.childNodes.forEach((node, childIndex) => {
+                    node.classList.add(`brSpan`);
+                    node.setAttribute('id', `${container.id}_${i}_${childIndex}`);
+                    spanChildCounter++;
+               })
+               brSpanChildSizePerEl.unshift(spanChildCounter);
+               brSpanCounter++;
+               targetNode.replaceWith(...targetNode.childNodes);
+          }
+          
+          let parentWidth = container.parentNode.offsetWidth;
+          for(let i = 0; i < brSpanCounter; i++) {
+               let targetSpan = e(`#${container.id}_${i}_${brSpanChildSizePerEl[i] - 1}`);
+               if(targetSpan && targetSpan.nextSibling) {
+                    targetSpan.style.display = 'inline-block'
+                    targetSpan.nextSibling.style.display = 'inline-block'
+                    let firstContWidth = targetSpan.offsetWidth;
+                    let secondContWidth = targetSpan.nextSibling.offsetWidth
+
+                    if((firstContWidth + secondContWidth) < parentWidth) {
+                         let newContent =  targetSpan.textContent + " " + targetSpan.nextSibling.textContent;
+                         targetSpan.nextSibling.remove();
+                         targetSpan.textContent = newContent;
+                         targetSpan.style.display = 'block';
+                    }  else {
+                         targetSpan.style.display = 'block';
+                         targetSpan.nextSibling.style.display = 'block';
+                    }
+
+               }
+          }
+
+     }
+}
+function headlineHighlightHandler(element) {
+
+     let headlineChildren = element.childNodes;
+     let bracketCheck = false;
+     // iterate through all span child in headline
+     headlineChildren.forEach((child) => {
+          let childText = child.textContent;
+
+          // if opening bracket exists and this line does not have closing bracket, highlight
+          if(bracketCheck == true && childText.indexOf('[') === -1 && childText.indexOf(']') === -1) {
+               child.style.fontFamily = 'Shopify-Sans-Extrabold-Italic';
+               return;
+          }
+
+          // handle check for text enclosed with brackets and surround with span
+          if(childText.indexOf('[') !== -1 || childText.indexOf(']') !== -1) {
+               // replace bracket with span
+               let newHeadline = '';
+               
+               for(let i = 0; i < childText.length; i++) {
+                    if(newHeadline.indexOf('<span>') !== -1 && i+1 === childText.length && childText[childText.length - 1] !== "]") {
+                         newHeadline += childText[i];
+                         newHeadline += '</span>';
+                    }else if(childText.indexOf('[') === -1 && childText.indexOf(']') !== -1 && i === 0) {
+                         newHeadline += '<span>';
+                         newHeadline += childText[i];
+                    } else if(childText[i] == '[') {
+                         newHeadline += '<span>';
+                         bracketCheck = true;
+                    } else if (childText[i] == ']') {
+                         newHeadline += '</span>';
+                         bracketCheck = false;
+                    } else {
+                         newHeadline += childText[i];
+                    }    
+               }
+               // replace html for frame1Headline text and apply change
+               child.innerHTML = newHeadline;
+               let spanTarget = child.getElementsByTagName("span");
+               spanTarget[0].style.fontFamily = 'Shopify-Sans-Extrabold-Italic';
+          }
+     });
+}
+
+function staticCheck() {
+     if(!Adlib.isEmpty(defaultValues.frame1Headline)) {
+          gsap.set(['#logo-container'], {opacity: 0});
+     } else {
+          gsap.set(['#headline > span', '#logo2-container'], {opacity: 0});
+     }
+}
+
+function e(element) {
+     return document.querySelector(`${element}`);
+}

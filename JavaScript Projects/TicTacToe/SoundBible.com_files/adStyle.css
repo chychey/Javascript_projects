@@ -1,0 +1,103 @@
+:root {
+     --creative_width: 320px;
+     --creative_height: 50px;
+}
+
+.absolute {
+     position: absolute;
+}
+
+.img-style {
+     object-fit: contain;
+     width: 100%;
+     height: 100%;
+}
+
+@font-face {
+     font-family: Shopify-Sans-Medium;
+     src: url("Shopify-Sans-Medium.woff");
+}
+
+@font-face {
+     font-family: Shopify-Sans-Bold;
+     src: url("Shopify-Sans-Bold.woff");
+}
+
+@font-face {
+     font-family: Shopify-Sans-Extrabold-Italic;
+     src: url("Shopify-Sans-Extrabold-Italic.woff");
+}
+
+/* text */
+
+#headline-container {
+     width: 146px;
+     height: 100%;
+     left: 47px;
+     display: flex;
+     align-items: center;
+}
+
+#headline {
+     font-family: Shopify-Sans-Bold;
+     font-size: 12px;
+     line-height: 1em;
+     color: #ffffff;
+     white-space: pre-line;
+}
+
+#cta-container, #cta-container2 {
+     width: fit-content;
+     height: 29px;
+     background-color: #ffffff;
+     border-radius: 200px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     position: absolute;
+     right: 12px;
+     top: 11px;
+}
+
+#cta, #cta2 {
+     font-family: Shopify-Sans-Bold;
+     font-size: 9px;
+     color: black;
+     letter-spacing: -0.01em;
+     padding: 0px 13px;
+     margin-top: 3px;
+}
+
+#cta.iphoneSafari, #cta2.iphoneSafari {
+     margin-top: 0px;
+}
+
+#cta.ipadSafari, #cta2.ipadSafari {
+     margin-top: 1px;
+}
+
+#cta.androidTabletChrome, #cta.androidPhoneChrome, #cta2.androidTabletChrome, #cta2.androidPhoneChrome {
+     margin-top: 2px;
+}
+
+
+/* images */
+
+#background-container {
+     width: var(--creative_width);
+     height: var(--creative_height);
+}
+
+#logo-container {
+     width: 112px;
+     height: 32px;
+     left: 12px;
+     top: 9px;
+}
+
+#logo2-container {
+     width: 28px;
+     height: 32px;
+     left: 12px;
+     top: 9px;
+}
