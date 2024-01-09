@@ -31,11 +31,17 @@
     float:right;
 }
 
+.middle {
+    width:200px;
+    height:200px;
+    float:middle;
+}
+
 #showText {
     width:200px;
     height:190px;
     margin:0px auto;
-    float:left;
+    float:right;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
