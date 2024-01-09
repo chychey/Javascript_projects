@@ -98,7 +98,7 @@ function checkWinConditions() {
         const a = selectedSquares.includes(squareA);
         const b = selectedSquares.includes(squareB);
         const c = selectedSquares.includes(squareC);
-        if (a === true && c === true) { return true; }
+        if (a === true && b === true && c === true) { return true; }
     }
 }
 
@@ -175,6 +175,7 @@ function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
             if (y > y2) {y -= 10; }
             if (x >= x2 && y <= y2) {cancelAnimationFrame(animationLoop); }
         }
+    }
     //this function clears our canvas after our win line is drawn.
     function clear() {
         //this line starts our animation loop.
@@ -193,7 +194,7 @@ function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
     //this line waits 1 second. Then, clears canvas, resets game, an alows clicking again.
     setTimeout(function () { clear(); resetGame(); }, 1000);
 
-    }
+    
 
 }
 
