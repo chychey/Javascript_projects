@@ -3,7 +3,7 @@ const Calculator = {
     //this will display 0 on the calculator screen.
     Display_Value: '0',
     //this will hold the first operand for any expressions, we set it to null for now.
-    Fist_operand: null,
+    First_Operand: null,
     //this checks wether or not the second operand has been inputted by the user.
     Wait_Second_Operand: false,
     //this will hold the operator, we set it to null for now.
@@ -12,7 +12,7 @@ const Calculator = {
 
 //this modifies values each time a button is clicked on.
 function Input_Digit(digit) {
-    const {Display_Value, Wait_second_Operand } = Calculator;
+    const {Display_Value, Wait_Second_Operand } = Calculator;
     //this checks if the Wait_Second_operand is true and sets Display_Value
     //to the key that was clicked on.
     if (Wait_Second_Operand === true) {
@@ -38,7 +38,7 @@ function Input_Decimal(dot) {
 }
 
 //this section handles operators
-function Handle_operator(Next_Operator) {
+function Handle_Operator(Next_Operator) {
     const {First_Operand, Display_Value, operator} = Calculator;
     //when an operator key is pressed we convert the current number
     //displayed on the screen to a number and then store the result in
@@ -69,11 +69,11 @@ Calculator.Wait_Second_Operand = true;
 Calculator.operator = Next_Operator;
 }
 const Perform_Calculation = {
-    '/':(First_Oprand, Second_Operand) => First_Operand / Second_Operand,
+    '/':(First_Operand, Second_Operand) => First_Operand / Second_Operand,
     '*':(First_Operand, Second_Operand) => First_Operand * Second_Operand,
     '+':(First_Operand, Second_Operand) => First_Operand + Second_Operand,
     '-':(First_Operand, Second_Operand) => First_Operand - Second_Operand,
-    '=':(First_Operand, Second_Operand) => Second_Operand
+    '=':(_First_Operand, Second_Operand) => Second_Operand
 };
 function Calculator_Reset() {
     Calculator.Display_Value = '0';
@@ -111,7 +111,7 @@ keys.addEventListener('click', (event) => {
         return;
     }
     //ensures that AC clears all inputs from the Calculator screen.
-    if (target.classList.conatins('all-clear')) {
+    if (target.classList.contains('all-clear')) {
         Calculator_Reset();
         Update_Display();
         return;
