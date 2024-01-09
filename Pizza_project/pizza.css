@@ -11,9 +11,6 @@
 
 }
 
-#h1 {
-    font-family: "times new Roman", Times, serif;
-}
 
 #totalPrice {
     width:200px;
@@ -39,16 +36,19 @@
     height:190px;
     margin:0px auto;
     float:left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 #cart {
     top: 0;margin:0px auto;
     width:400px;
     height:200px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #btnOrder {
     margin:10px 0px 0px 100px;
     width:100px;
-    height:40px
+    height:40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

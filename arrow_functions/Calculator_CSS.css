@@ -54,7 +54,7 @@ button:hover {
 }
 .operator {
     color: black;
-    background-image: repeating-linear-gradient(to bottom, transparent, transparent 50%, rgba(0,0,0,0.5));
+    background-image: linear-gradient(to bottom, transparent, transparent 50%, rgba(0,0,0,0.5));
     background-color: lightgray;
 }
 
