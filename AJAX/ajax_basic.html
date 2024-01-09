@@ -12,15 +12,15 @@
 				<input type="button" class="button" value="Get Content" id="btn_content" onclick="getContent();"/>
 			</div>
 		<script type="text/javascript">
-		var ajax = new XMLhttpRequest();
-		ajax.open ('GET', 'content.html);
+		var ajax = new XMLHttpRequest();
+		ajax.open('GET', 'content.html');
 		ajax.onreadystatechange = function() {
-		if (ajax.readyState = 4)
+		if (ajax.readyState = 4) {
 		 document.getElementById('content').innerHTML = ajax.responseText;
+			}	
 		}
 		
-		
-	}
+	
         function getContent() {
             ajax.send();
             document.getElementById('btn content').style.display = 'none';		
