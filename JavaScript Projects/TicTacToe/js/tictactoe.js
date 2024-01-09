@@ -35,7 +35,7 @@ function placeXOrO(squareNumber) {
         }
 
         //this function plays placement sound.
-        audio('media/winGame.mp3');
+        audio('media/place.mp3');
         //this condition checks to see if it is the computers turn.
         if (activePlayer === 'O') {
             //this function disables clicking for computers turn.
@@ -48,24 +48,24 @@ function placeXOrO(squareNumber) {
 
     }
 //This function results in a random square being selected by the computer.
-function computersTurn() {
-    //this boolean is needed for our while loop.
-    let success = false;
-    //this varibale stores a random number 0-8.
-    let pickASquare;
-    //this conditon allows our while loop to keep trying if a square is selected already.
-    while (!success) {
-        //a random number between 0 and 8 is selected.
-        pickASquare = String(Math.floor(Math.random() * 9));
-        //if the random number evaluated returns true, the square hasn't been selected yet.
-        if (placeXOrO(pickASquare)) {
-            //this line calls the function.
-            placeXOrO(pickASquare);
-            //this changes our boolean and ends the loop.
-            success = true;
-        };
-    }
-  }    
+    function computersTurn() {
+        //this boolean is needed for our while loop.
+        let success = false;
+        //this varibale stores a random number 0-8.
+        let pickASquare;
+        //this conditon allows our while loop to keep trying if a square is selected already.
+        while (!success) {
+            //a random number between 0 and 8 is selected.
+            pickASquare = String(Math.floor(Math.random() * 9));
+            //if the random number evaluated returns true, the square hasn't been selected yet.
+            if (placeXOrO(pickASquare)) {
+                //this line calls the function.
+                placeXOrO(pickASquare);
+                //this changes our boolean and ends the loop.
+                success = true;
+            };
+        }
+    }    
 }
 
 function checkWinConditions() {
@@ -87,18 +87,19 @@ function checkWinConditions() {
     else if (arrayIncludes('1O', '4O', '7O')) {drawWinLine(304, 50, 304, 558) }
     else if (arrayIncludes('2O', '5O', '8O')) {drawWinLine(508, 50, 508,558) }
     else if (arrayIncludes('6O', '4O', '2O')) {drawWinLine(100, 508, 510, 90) }
-    else if (arrayIncludes('0O', '4O', '8O')) {drawWinLine(100, 100, 520, 520)}
+    else if (arrayIncludes('0O', '4O', '8O')) {drawWinLine(100, 100, 520, 520) }
     else if (selectedSquares.length >= 9) {
         audio('./media/winGame.mp3');
         setTimeout(function () { resetGame();}, 500);
     }
-}
 
-function arrayIncludes(squareA, squareB, squareC) {
-    const a = selectedSquares.includes(squareA);
-    const b = selectedSquares.includes(squareB);
-    const c = selectedSquares.includes(squareC);
-    if (a === true && c === true) { return true; }
+
+    function arrayIncludes(squareA, squareB, squareC) {
+        const a = selectedSquares.includes(squareA);
+        const b = selectedSquares.includes(squareB);
+        const c = selectedSquares.includes(squareC);
+        if (a === true && c === true) { return true; }
+    }
 }
 
 //this function makes our body element temorarily unclickable.
@@ -147,7 +148,7 @@ function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
         //this method starts a new path.
         c.beginPath();
         //this method moves us to a starting point in our line.
-        c. moveTo(x1, y1);
+        c.moveTo(x1, y1);
         //this method indicates the end point in our line.
         c.lineTo(x, y);
         //this method sets the width of our line.
@@ -174,27 +175,26 @@ function drawWinLine(coordX1, coordY1, coordX2, coordY2) {
             if (y > y2) {y -= 10; }
             if (x >= x2 && y <= y2) {cancelAnimationFrame(animationLoop); }
         }
+    //this function clears our canvas after our win line is drawn.
+    function clear() {
+        //this line starts our animation loop.
+        const animationLoop = requestAnimationFrame(clear);
+        //this line clears our canvas.
+        c.clearRect(0, 0, 608, 608);
+        //this line stops our animation loop.
+        cancelAnimationFrame(animationLoop);
+    }
+        //this line disallows clicking while the win sound is playing
+    disableClick();
+    //this line plays the win sounds.
+    audio('media/winGame.mp3');
+    //this line calls our main animation loop.
+    animateLineDrawing();
+    //this line waits 1 second. Then, clears canvas, resets game, an alows clicking again.
+    setTimeout(function () { clear(); resetGame(); }, 1000);
 
-    
-}
+    }
 
-//this function clears our canvas after our win line is drawn.
-function clear() {
-    //this line starts our animation loop.
-    const animationLoop = requestAnimationFrame(clear);
-    //this line clears our canvas.
-    c.clearRect(0, 0, 608, 608);
-    //this line stops our animation loop.
-    cancelAnimationFrame(animationLoop);
-}
-//this line disallows clicking while the win sound is playing
-disableClick();
-//this line plays the win sounds.
-audio('media/winGame.mp3');
-//this line calls our main animation loop.
-animateLineDrawing();
-//this line waits 1 second. Then, clears canvas, resets game, an alows clicking again.
-setTimeout(function () { clear(); resetGame(); }, 1000);
 }
 
 //this function resets the game in the event of a tie or a win.
